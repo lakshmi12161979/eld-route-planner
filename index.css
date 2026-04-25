@@ -1,0 +1,440 @@
+/* Leaflet CSS — required for map rendering */
+@import "leaflet/dist/leaflet.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-display: "Fraunces";
+    --font-body: "Satoshi";
+    --font-mono: "Geist Mono";
+    --radius: 0.5rem;
+
+    --background: 0.95 0.01 260;
+    --foreground: 0.15 0.02 260;
+    --card: 0.99 0 0;
+    --card-foreground: 0.15 0.02 260;
+    --popover: 0.98 0 0;
+    --popover-foreground: 0.15 0.02 260;
+
+    --primary: 0.68 0.18 260;
+    --primary-foreground: 0.95 0 0;
+
+    --secondary: 0.72 0.08 260;
+    --secondary-foreground: 0.18 0.02 260;
+    --muted: 0.88 0.02 260;
+    --muted-foreground: 0.45 0.03 260;
+
+    --accent: 0.75 0.19 50;
+    --accent-foreground: 0.95 0 0;
+
+    --destructive: 0.65 0.21 22;
+    --destructive-foreground: 0.95 0 0;
+
+    --border: 0.85 0.02 260;
+    --input: 0.85 0.02 260;
+    --ring: 0.68 0.18 260;
+
+    --chart-1: 0.68 0.18 260;
+    --chart-2: 0.62 0.18 140;
+    --chart-3: 0.65 0.21 22;
+    --chart-4: 0.65 0.16 185;
+    --chart-5: 0.58 0.12 300;
+
+    --sidebar: 0.98 0.01 260;
+    --sidebar-foreground: 0.15 0.02 260;
+    --sidebar-primary: 0.68 0.18 260;
+    --sidebar-primary-foreground: 0.95 0 0;
+    --sidebar-accent: 0.88 0.02 260;
+    --sidebar-accent-foreground: 0.22 0.02 260;
+    --sidebar-border: 0.85 0.02 260;
+    --sidebar-ring: 0.68 0.18 260;
+  }
+
+  .dark {
+    --background: 0.06 0.02 260;
+    --foreground: 0.95 0.01 260;
+    --card: 0.12 0.03 260;
+    --card-foreground: 0.95 0.01 260;
+    --popover: 0.14 0.03 260;
+    --popover-foreground: 0.95 0.01 260;
+
+    --primary: 0.68 0.18 260;
+    --primary-foreground: 0.06 0.02 260;
+
+    --secondary: 0.22 0.04 260;
+    --secondary-foreground: 0.88 0.02 260;
+    --muted: 0.22 0.04 260;
+    --muted-foreground: 0.58 0.02 260;
+
+    --accent: 0.75 0.19 50;
+    --accent-foreground: 0.06 0.02 260;
+
+    --destructive: 0.65 0.21 22;
+    --destructive-foreground: 0.95 0.01 260;
+
+    --border: 0.25 0.03 260;
+    --input: 0.25 0.03 260;
+    --ring: 0.68 0.18 260;
+
+    --chart-1: 0.68 0.18 260;
+    --chart-2: 0.62 0.18 140;
+    --chart-3: 0.65 0.21 22;
+    --chart-4: 0.68 0.16 185;
+    --chart-5: 0.58 0.12 300;
+
+    --sidebar: 0.12 0.03 260;
+    --sidebar-foreground: 0.95 0.01 260;
+    --sidebar-primary: 0.68 0.18 260;
+    --sidebar-primary-foreground: 0.06 0.02 260;
+    --sidebar-accent: 0.22 0.04 260;
+    --sidebar-accent-foreground: 0.88 0.02 260;
+    --sidebar-border: 0.25 0.03 260;
+    --sidebar-ring: 0.68 0.18 260;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+}
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("/assets/fonts/Fraunces.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("/assets/fonts/Satoshi.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/assets/fonts/GeistMono.woff2") format("woff2");
+  font-display: swap;
+}
+
+@layer utilities {
+  /* ── Transitions ──────────────────────────────────────────────────────── */
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ── Glassmorphism ─────────────────────────────────────────────────────── */
+  .glass-card {
+    background-color: color-mix(in oklch, oklch(var(--card)) 80%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-card-elevated {
+    background-color: color-mix(in oklch, oklch(var(--card)) 75%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* ── Glow effects ──────────────────────────────────────────────────────── */
+  .glow-primary {
+    box-shadow: 0 0 20px 0
+      color-mix(in oklch, oklch(var(--primary)) 50%, transparent), 0 0 40px 0
+      color-mix(in oklch, oklch(var(--primary)) 20%, transparent);
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 16px 0
+      color-mix(in oklch, oklch(var(--accent)) 50%, transparent), 0 0 32px 0
+      color-mix(in oklch, oklch(var(--accent)) 25%, transparent);
+  }
+
+  .text-glow-primary {
+    text-shadow: 0 0 20px
+      color-mix(in oklch, oklch(var(--primary)) 70%, transparent);
+  }
+
+  .text-glow-accent {
+    text-shadow: 0 0 16px
+      color-mix(in oklch, oklch(var(--accent)) 70%, transparent);
+  }
+
+  /* ── Gradient text ─────────────────────────────────────────────────────── */
+  .gradient-text-cyan {
+    background: linear-gradient(
+      135deg,
+      oklch(0.88 0.12 210),
+      oklch(0.95 0.02 260)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-text-amber {
+    background: linear-gradient(135deg, oklch(0.9 0.15 55), oklch(0.85 0.12 40));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── CTA buttons ───────────────────────────────────────────────────────── */
+  .btn-primary-gradient {
+    background: linear-gradient(
+      135deg,
+      oklch(0.7 0.2 220) 0%,
+      oklch(0.6 0.22 250) 100%
+    );
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 14px 0
+      color-mix(in oklch, oklch(0.68 0.2 220) 40%, transparent);
+  }
+
+  .btn-primary-gradient:hover:not(:disabled) {
+    transform: translateY(-1px) scale(1.01);
+    box-shadow: 0 8px 20px 0
+      color-mix(in oklch, oklch(0.68 0.2 220) 50%, transparent);
+  }
+
+  .btn-primary-gradient:active {
+    transform: translateY(0) scale(0.99);
+  }
+
+  /* ── Animated backgrounds ─────────────────────────────────────────────── */
+  .bg-mesh-animated {
+    background-color: oklch(0.06 0.02 260);
+    background-image: radial-gradient(
+        ellipse 80% 50% at 20% 0%,
+        color-mix(in oklch, oklch(0.68 0.18 260) 8%, transparent) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        ellipse 60% 40% at 80% 100%,
+        color-mix(in oklch, oklch(0.75 0.19 50) 5%, transparent) 0%,
+        transparent 60%
+      );
+    animation: mesh-shift 12s ease-in-out infinite alternate;
+  }
+
+  /* ── Highway dashes (header decoration) ───────────────────────────────── */
+  .highway-dashes {
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 40px,
+      color-mix(in oklch, oklch(0.68 0.18 260) 20%, transparent) 40px,
+      color-mix(in oklch, oklch(0.68 0.18 260) 20%, transparent) 80px
+    );
+    animation: highway-scroll 4s linear infinite;
+  }
+
+  /* ── Pulse animations ─────────────────────────────────────────────────── */
+  .destructive-pulse {
+    animation: pulse-destructive 2s ease-in-out infinite;
+  }
+
+  .glow-pulse {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  /* ── Status colors for ELD grid ───────────────────────────────────────── */
+  .duty-off {
+    background-color: color-mix(in oklch, oklch(0.5 0.12 260) 12%, transparent);
+    border-left: 3px solid oklch(0.5 0.12 260);
+  }
+
+  .duty-sleeper {
+    background-color: color-mix(in oklch, oklch(0.62 0.18 310) 12%, transparent);
+    border-left: 3px solid oklch(0.62 0.18 310);
+  }
+
+  .duty-driving {
+    background-color: color-mix(in oklch, oklch(0.68 0.18 185) 12%, transparent);
+    border-left: 3px solid oklch(0.68 0.18 185);
+  }
+
+  .duty-on-duty {
+    background-color: color-mix(in oklch, oklch(0.75 0.19 55) 12%, transparent);
+    border-left: 3px solid oklch(0.75 0.19 55);
+  }
+
+  .violation-row {
+    background-color: color-mix(
+      in oklch,
+      oklch(var(--destructive)) 12%,
+      transparent
+    );
+    @apply text-destructive;
+  }
+
+  .compliant-row {
+    background-color: color-mix(
+      in oklch,
+      oklch(var(--chart-2)) 12%,
+      transparent
+    );
+    color: oklch(var(--chart-2));
+  }
+
+  /* ── Hover lift ────────────────────────────────────────────────────────── */
+  .hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  /* ── Smooth animations ─────────────────────────────────────────────────── */
+  .smooth-fade-in {
+    animation: fade-in 0.6s ease-out forwards;
+    opacity: 0;
+  }
+
+  .stagger-delay-1 {
+    animation-delay: 0.1s;
+  }
+  .stagger-delay-2 {
+    animation-delay: 0.2s;
+  }
+  .stagger-delay-3 {
+    animation-delay: 0.3s;
+  }
+  .stagger-delay-4 {
+    animation-delay: 0.4s;
+  }
+
+  /* ── Nav pill active glow ──────────────────────────────────────────────── */
+  .nav-pill-active {
+    background-color: color-mix(
+      in oklch,
+      oklch(var(--primary)) 15%,
+      transparent
+    );
+    border: 1px solid
+      color-mix(in oklch, oklch(var(--primary)) 40%, transparent);
+    box-shadow: 0 0 12px 0
+      color-mix(in oklch, oklch(var(--primary)) 30%, transparent), inset 0 1px 0
+      rgba(255, 255, 255, 0.05);
+  }
+
+  /* ── Map glow border ───────────────────────────────────────────────────── */
+  .map-glow-border {
+    box-shadow: 0 0 0 1px
+      color-mix(in oklch, oklch(var(--primary)) 40%, transparent), 0 0 20px 0
+      color-mix(in oklch, oklch(var(--primary)) 15%, transparent), inset 0 0
+      40px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  /* ── ELD line draw animation ───────────────────────────────────────────── */
+  .line-draw-animated {
+    stroke-dasharray: var(--dash-array, 0);
+    stroke-dashoffset: 0;
+    animation: line-draw 0.5s ease-in-out forwards;
+  }
+}
+
+/* ── Keyframe animations ─────────────────────────────────────────────────── */
+
+/**
+ * ELD line-draw keyframe animation.
+ * Animates SVG strokeDashoffset from full path length to 0,
+ * creating the effect of the line being drawn in real-time.
+ * Used for FMCSA duty-status line visualization.
+ */
+@keyframes line-draw {
+  from {
+    stroke-dashoffset: var(--dash-length, 1000);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-destructive {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 8px 0
+      color-mix(in oklch, oklch(var(--destructive)) 40%, transparent);
+  }
+  50% {
+    opacity: 0.85;
+    box-shadow: 0 0 24px 4px
+      color-mix(in oklch, oklch(var(--destructive)) 55%, transparent);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes highway-scroll {
+  from {
+    background-position-x: 0px;
+  }
+  to {
+    background-position-x: 80px;
+  }
+}
+
+@keyframes mesh-shift {
+  0% {
+    background-position: 20% 0%, 80% 100%;
+  }
+  100% {
+    background-position: 25% 5%, 75% 95%;
+  }
+}
+
+@keyframes slide-indicator {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* ── Print styles ─────────────────────────────────────────────────────────── */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .print\:hidden {
+    display: none !important;
+  }
+}
